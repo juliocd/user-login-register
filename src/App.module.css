@@ -1,0 +1,13 @@
+.app {
+  padding-left: 20%;
+  padding-right: 20%;
+  background-color: rgb(24, 24, 24);
+}
+
+.app .popup {
+  background: red;
+  height: 150px;
+  position: absolute;
+  margin-top: -80px;
+  width: 60%;
+}
