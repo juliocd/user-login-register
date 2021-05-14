@@ -3,10 +3,12 @@ import React, {useState} from 'react';
 import styles from './LoginForm.module.css';
 import Button from '../UI/Button/Button';
 import Card from '../UI/Card/Card';
+import Popup from '../UI/Popup/Popup';
 
 const LoginForm = (props) => {
     const [username, setUsername] = useState('');
     const [age, setAge] = useState('');
+    const [error, setError] = useState(null);
 
     const usernameChangeEventHandler = (event) => {
         setUsername(event.target.value);
@@ -19,12 +21,16 @@ const LoginForm = (props) => {
     const formSubmitEventHandler = (event) => {
         event.preventDefault();
 
-        let message = null;
-        if(age < 1){
-            message = 'Age shoud be valid';
-            props.updateUsers({
-                message: message
-            });
+        if(username.trim().length === 0){
+            setError({
+                message: 'Enter a valid username',
+                title: 'Username Error'
+            })
+        }else if(age < 1){
+            setError({
+                message: 'Age shoud be valid',
+                title: 'Age Error'
+            })
         }else{
             props.updateUsers({
                 id: Math.random().toString(),
@@ -37,28 +43,38 @@ const LoginForm = (props) => {
         setUsername('');
     }
 
+    const closeButtonHandler = () => {
+        setError(null);
+    }
+
     return (
-        <Card>
-            <form onSubmit={formSubmitEventHandler}>
-                <div className={styles["form-control"]}>
-                    <label>Username</label>
-                    <input 
-                        value={username}
-                        onChange={usernameChangeEventHandler}
-                        type="text" />
-                </div>
-                <div className={styles["form-control"]}>
-                    <label>Age (Year)</label>
-                    <input 
-                        value={age}
-                        onChange={ageChangeEventHandler}
-                        type="number"/>
-                </div>
-                <Button 
-                    type="submit"
-                    >Add User</Button>
-            </form>
-        </Card>
+        <div>
+            {error && <Popup 
+                        title={error.title} 
+                        closeButton={closeButtonHandler} 
+                        message={error.message} />}
+            <Card>
+                <form onSubmit={formSubmitEventHandler}>
+                    <div className={styles["form-control"]}>
+                        <label>Username</label>
+                        <input 
+                            value={username}
+                            onChange={usernameChangeEventHandler}
+                            type="text" />
+                    </div>
+                    <div className={styles["form-control"]}>
+                        <label>Age (Year)</label>
+                        <input 
+                            value={age}
+                            onChange={ageChangeEventHandler}
+                            type="number"/>
+                    </div>
+                    <Button 
+                        type="submit"
+                        >Add User</Button>
+                </form>
+            </Card>
+        </div>
     )
 }
 
