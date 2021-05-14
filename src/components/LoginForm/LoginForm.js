@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import styles from './LoginForm.module.css';
 import Button from '../UI/Button/Button';
+import Card from '../UI/Card/Card';
 
 const LoginForm = (props) => {
     const [username, setUsername] = useState('');
@@ -37,7 +38,7 @@ const LoginForm = (props) => {
     }
 
     return (
-        <div className={styles.container}>
+        <Card>
             <form onSubmit={formSubmitEventHandler}>
                 <div className={styles["form-control"]}>
                     <label>Username</label>
@@ -57,7 +58,7 @@ const LoginForm = (props) => {
                     type="submit"
                     >Add User</Button>
             </form>
-        </div>
+        </Card>
     )
 }
 
